@@ -17,11 +17,13 @@ No- Name: Hex-Value
 
 60% - Dominant Color: This is the primary color of your website, which should be the most 
 prominent throughout the design. It usually covers the background and large sections of your site 
-(like the header or footer). This color sets the mood and tone for your site.
+(like the header or footer). This color sets the mood and tone for your site. (#ECE2D0)
 
 30% - Secondary Color: This color complements the dominant color and is typically used for larger accent areas, 
-like sidebars or call-to-action buttons. It should contrast well with the dominant color but still feel cohesive.
+like sidebars or call-to-action buttons. It should contrast well with the dominant color but still feel cohesive. 
+(#D3A588)
 
 10% - Accent Color: The accent color is used sparingly and should draw attention. It's often used for buttons, 
 highlights, links, or other focal points. It should be bold enough to stand out against the dominant and 
 secondary colors.
+(#7A6563)
