@@ -30,4 +30,6 @@
   - Credit hour limits are exceeded.
   - Prerequisites or sequencing rules are violated.
 
+## ❗Disclaimer 
+  - This is *NOT* an official website or tool from Qatar University (QU). It is a student-created project designed to help fellow QU students organize and plan their study paths more easily.
 
