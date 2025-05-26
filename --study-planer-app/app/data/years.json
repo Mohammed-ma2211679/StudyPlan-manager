@@ -1,0 +1,16 @@
+[
+  {
+    "userId": 1,
+    "years": {
+      "id": 1,
+      "courses": {
+        "fall": [],
+        "winter": [
+          { "title": "vfd", "code": "fvd", "grade": 98, "credits": 3 }
+        ],
+        "spring": [],
+        "summer": []
+      }
+    }
+  }
+]

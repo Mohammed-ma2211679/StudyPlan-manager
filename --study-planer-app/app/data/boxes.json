@@ -1,0 +1,23 @@
+[
+  {
+    "id": "box1",
+    "title": "Box 1",
+    "description": "This is the first box.",
+    "color": "#FF5733",
+    "icon": "📦"
+  },
+  {
+    "id": "box2",
+    "title": "Box 2",
+    "description": "This is the second box.",
+    "color": "#33FF57",
+    "icon": "📦"
+  },
+  {
+    "id": "box3",
+    "title": "Box 3",
+    "description": "This is the third box.",
+    "color": "#3357FF",
+    "icon": "📦"
+  }
+]
