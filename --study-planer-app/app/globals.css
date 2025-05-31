@@ -92,6 +92,7 @@ main .content .year {
   grid-template-areas:
     "title title title title"
     "fall winter spring summer"
+    "summary summary summary summary"
 ;
 }
 
@@ -143,6 +144,18 @@ main .content .year .summer {
   border-radius: 5px;
   grid-area: summer;
 }
+
+
+
+main .content .year .year-summary {
+  grid-area: summary;
+
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #e9ecef;
+}
+
+
 
 
 

@@ -93,6 +93,47 @@ class YearRepo {
       );
     }, 0);
   }
+
+  getFinalPoints() {
+    const years = this.getYears();
+    const pointsSystem = {
+      A: 4,
+      B: 3,
+      C: 2,
+      D: 1,
+      F: 0,
+    };
+  }
+
+  getFinalGPA() {}
+
+  getYearCredits(yearId) {
+    const year = this.getYearById(yearId);
+    if (!year) return 0;
+    return Object.values(year.courses).reduce((total, semesterCourses) => {
+      return (
+        total +
+        semesterCourses.reduce((sum, course) => sum + (course.credits || 0), 0)
+      );
+    }, 0);
+  }
+
+  getYearPoints(yearId) {}
+
+  getYearGPA(yearId) {}
+
+  getSemesterCredits(yearId, semester) {
+    const year = this.getYearById(yearId);
+    if (!year || !year.courses[semester]) return 0;
+    return year.courses[semester].reduce(
+      (total, course) => total + (course.credits || 0),
+      0
+    );
+  }
+
+  getSemesterPoints(yearId, semester) {}
+
+  getSemesterGPA(yearId, semester) {}
 }
 
 export default new YearRepo();
