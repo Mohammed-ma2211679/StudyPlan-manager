@@ -25,8 +25,8 @@ export default function Home() {
   const [FinalGPA, setFinalGPA] = useState(0);
   const [FinalPoints, setFinalPoints] = useState(0);
   const [FinalCredits, setFinalCredits] = useState(0);
-  const userId = localStorage.getItem("userId") || cuid();
-  localStorage.setItem("userId", userId);
+  //const userId = localStorage.getItem("userId") || cuid();
+  //localStorage.setItem("userId", userId);
 
   const loadYears = async () => {
     try {
