@@ -1,34 +1,31 @@
-import fse from "fs-extra";
-import path from "path";
-
 class YearRepo {
-  constructor() {
-    this.basePath = path.join(process.cwd(), "app/data");
+  storageKey = "years";
+
+  getYears() {
+    if (typeof window === "undefined") return []; // Server-side safety
+    const data = sessionStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : [];
   }
 
-  async getYears() {
-    return fse.readJSON(path.join(this.basePath, "years.json"));
+  saveYears(years) {
+    if (typeof window === "undefined") return;
+    sessionStorage.setItem(this.storageKey, JSON.stringify(years));
   }
 
-  async saveYears(years) {
-    return fse.writeJSON(path.join(this.basePath, "years.json"), years);
-  }
-
-  async getYearById(id) {
-    const years = await this.getYears();
+  getYearById(id) {
+    const years = this.getYears();
     return years.find((year) => year.id === id);
   }
 
-  // add a new year
-  async addYear(newYear) {
-    const years = await this.getYears();
+  addYear(newYear) {
+    const years = this.getYears();
     years.push(newYear);
-    await this.saveYears(years);
+    this.saveYears(years);
     return newYear;
   }
 
-  async createYear() {
-    const years = await this.getYears();
+  createYear() {
+    const years = this.getYears();
     const newYearId = years.length + 1;
     const newYear = {
       id: newYearId,
@@ -40,45 +37,40 @@ class YearRepo {
       },
     };
     years.push(newYear);
-    await this.saveYears(years);
+    this.saveYears(years);
     return newYear;
   }
 
-  async updateYear(updatedYear) {
-    const years = await this.getYears();
+  updateYear(updatedYear) {
+    const years = this.getYears();
     const index = years.findIndex((year) => year.id === updatedYear.id);
-
     if (index !== -1) {
       years[index] = updatedYear;
-      await this.saveYears(years);
+      this.saveYears(years);
       return updatedYear;
     } else {
       throw new Error("Year not found");
     }
   }
 
-  // add a new course
-  async addCourseToYear(yearId, semester, course) {
-    const year = await this.getYearById(yearId);
-
+  addCourseToYear(yearId, semester, course) {
+    const year = this.getYearById(yearId);
     year.courses[semester].push(course);
-
     return this.updateYear(year);
   }
 
-  async deleteYear(yearId) {
-    const years = await this.getYears();
+  deleteYear(yearId) {
+    let years = this.getYears();
     const updatedYears = years.filter((year) => year.id !== yearId);
-    // loop through each year and update the id
-    updatedYears.forEach((year, index) => {
-      year.id = index + 1; // Reset IDs to be sequential
+    updatedYears.forEach((year, idx) => {
+      year.id = idx + 1;
     });
-    await this.saveYears(updatedYears);
+    this.saveYears(updatedYears);
     return updatedYears;
   }
 
-  async deleteCourseFromYear(yearId, semester, courseIndex) {
-    const year = await this.getYearById(yearId);
+  deleteCourseFromYear(yearId, semester, courseIndex) {
+    const year = this.getYearById(yearId);
     if (year && year.courses[semester]) {
       year.courses[semester].splice(courseIndex, 1);
       return this.updateYear(year);
@@ -87,17 +79,15 @@ class YearRepo {
     }
   }
 
-  async getFinalCredits() {
-    const years = await this.getYears();
+  getFinalCredits() {
+    const years = this.getYears();
     return years.reduce((total, year) => {
       return (
         total +
         Object.values(year.courses).reduce((sum, courses) => {
           return (
             sum +
-            courses.reduce((courseSum, course) => {
-              return courseSum + (course.credits || 0);
-            }, 0)
+            courses.reduce((acc, course) => acc + (course.credits || 0), 0)
           );
         }, 0)
       );

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import cuid from "cuid";
-import CreateCourseModal from "./components/CreateCourseModal"; // Adjust path
+import CreateCourseModal from "./components/CreateCourseModal.jsx";
 
 import React, { useEffect, useState } from "react";
 import {
@@ -15,7 +15,7 @@ import {
   deleteYearAction,
   deleteCourseAction,
   getFinalCreditsAction,
-} from "./actions/server-actions";
+} from "./actions/client-actions";
 
 export default function Home() {
   const [years, setYears] = useState([]);
@@ -25,8 +25,6 @@ export default function Home() {
   const [FinalGPA, setFinalGPA] = useState(0);
   const [FinalPoints, setFinalPoints] = useState(0);
   const [FinalCredits, setFinalCredits] = useState(0);
-  //const userId = localStorage.getItem("userId") || cuid();
-  //localStorage.setItem("userId", userId);
 
   const loadYears = async () => {
     try {
@@ -48,7 +46,7 @@ export default function Home() {
   };
 
   const handleCreateCourse = async (newCourse) => {
-    addCourseToYearAction(selectedYearId, selectedSemester, newCourse);
+    await addCourseToYearAction(selectedYearId, selectedSemester, newCourse);
     setShowModal(false);
     setSelectedSemester("");
     setSelectedYearId(null);
@@ -119,13 +117,13 @@ export default function Home() {
                 >
                   Add Course
                 </button>
-                <CreateCourseModal
-                  isOpen={showModal}
-                  onClose={() => setShowModal(false)}
-                  onCreate={handleCreateCourse}
-                />
               </div>
             ))}
+            <CreateCourseModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+              onCreate={handleCreateCourse}
+            />
           </div>
         ))}
         <button className="add-year btn" onClick={handleAddYear}>
