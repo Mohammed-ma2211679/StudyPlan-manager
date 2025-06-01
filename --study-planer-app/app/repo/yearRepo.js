@@ -96,16 +96,38 @@ class YearRepo {
 
   getFinalPoints() {
     const years = this.getYears();
-    const pointsSystem = {
-      A: 4,
-      B: 3,
-      C: 2,
-      D: 1,
-      F: 0,
-    };
+    return years.reduce((total, year) => {
+      return (
+        total +
+        Object.values(year.courses).reduce((sum, courses) => {
+          return (
+            sum + courses.reduce((acc, course) => acc + (course.points || 0), 0)
+          );
+        }, 0)
+      );
+    }, 0);
+  }
+  truncateTo2Decimals(num) {
+    return Math.trunc(num * 100) / 100;
   }
 
-  getFinalGPA() {}
+  getFinalGPA() {
+    const years = this.getYears();
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    years.forEach((year) => {
+      Object.values(year.courses).forEach((semesterCourses) => {
+        semesterCourses.forEach((course) => {
+          totalPoints += course.points || 0;
+          totalCredits += course.credits || 0;
+        });
+      });
+    });
+    return totalCredits > 0
+      ? this.truncateTo2Decimals(totalPoints / totalCredits)
+      : 0;
+  }
 
   getYearCredits(yearId) {
     const year = this.getYearById(yearId);
@@ -118,9 +140,34 @@ class YearRepo {
     }, 0);
   }
 
-  getYearPoints(yearId) {}
+  getYearPoints(yearId) {
+    const year = this.getYearById(yearId);
+    if (!year) return 0;
+    return Object.values(year.courses).reduce((total, semesterCourses) => {
+      return (
+        total +
+        semesterCourses.reduce((sum, course) => sum + (course.points || 0), 0)
+      );
+    }, 0);
+  }
 
-  getYearGPA(yearId) {}
+  getYearGPA(yearId) {
+    const year = this.getYearById(yearId);
+    if (!year) return 0;
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    Object.values(year.courses).forEach((semesterCourses) => {
+      semesterCourses.forEach((course) => {
+        totalPoints += course.points || 0;
+        totalCredits += course.credits || 0;
+      });
+    });
+
+    return totalCredits > 0
+      ? this.truncateTo2Decimals(totalPoints / totalCredits)
+      : 0;
+  }
 
   getSemesterCredits(yearId, semester) {
     const year = this.getYearById(yearId);
@@ -131,9 +178,30 @@ class YearRepo {
     );
   }
 
-  getSemesterPoints(yearId, semester) {}
+  getSemesterPoints(yearId, semester) {
+    const year = this.getYearById(yearId);
+    if (!year || !year.courses[semester]) return 0;
+    return year.courses[semester].reduce(
+      (total, course) => total + (course.points || 0),
+      0
+    );
+  }
 
-  getSemesterGPA(yearId, semester) {}
+  getSemesterGPA(yearId, semester) {
+    const year = this.getYearById(yearId);
+    if (!year || !year.courses[semester]) return 0;
+    let totalPoints = 0;
+    let totalCredits = 0;
+
+    year.courses[semester].forEach((course) => {
+      totalPoints += course.points || 0;
+      totalCredits += course.credits || 0;
+    });
+
+    return totalCredits > 0
+      ? this.truncateTo2Decimals(totalPoints / totalCredits)
+      : 0;
+  }
 }
 
 export default new YearRepo();

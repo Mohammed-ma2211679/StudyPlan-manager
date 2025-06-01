@@ -1,4 +1,5 @@
 "use client";
+import { Download, Upload } from "lucide-react";
 
 import Image from "next/image";
 import cuid from "cuid";
@@ -26,9 +27,6 @@ export default function Home() {
   const [FinalGPA, setFinalGPA] = useState(0);
   const [FinalPoints, setFinalPoints] = useState(0);
   const [FinalCredits, setFinalCredits] = useState(0);
-  const [yearCredits, setYearCredits] = useState(0);
-  const [yearPoints, setYearPoints] = useState(0);
-  const [yearGPA, setYearGPA] = useState(0);
 
   const loadYears = async () => {
     try {
@@ -37,9 +35,6 @@ export default function Home() {
       setFinalCredits(await getFinalCreditsAction());
       setFinalPoints(yearRepo.getFinalPoints());
       setFinalGPA(yearRepo.getFinalGPA());
-      setYearCredits(yearRepo.getYearCredits(selectedYearId));
-      setYearPoints(yearRepo.getYearPoints(selectedYearId));
-      setYearGPA(yearRepo.getYearGPA(selectedYearId));
     } catch (error) {
       console.error("Error loading years:", error);
     }
@@ -75,8 +70,14 @@ export default function Home() {
   return (
     <main>
       <div className="header">
-        Here you can create components and drag them to the content grid
+        <a href="" className="btn">
+          Download your study plan 📥
+        </a>
+        <a href="" className="btn">
+          Upload your study plan 📤
+        </a>
       </div>
+
       <div className="content">
         {years.map((year) => {
           const yearCredits = yearRepo.getYearCredits(year.id);
@@ -100,7 +101,7 @@ export default function Home() {
                 </button>
               </div>
 
-              {["fall", "winter", "spring", "summer"].map((sem) => {
+              {["spring", "summer", "fall", "winter"].map((sem) => {
                 const semesterCredits = yearRepo.getSemesterCredits(
                   year.id,
                   sem
@@ -125,6 +126,8 @@ export default function Home() {
                         <p>Course Code: {course.code}</p>
                         <p>Grade: {course.grade}</p>
                         <p>Credits : {course.credits}</p>
+                        <p>Points : {course.points}</p>
+                        <p>GPA : {course.GPA}</p>
                       </div>
                     ))}
                     <button
