@@ -67,10 +67,26 @@ export default function Home() {
     }
   };
 
+  const downloadFile = async () => {
+    try {
+      const jsonData = await fetch("/api/study-plan");
+      const data = await jsonData.json();
+
+      const a = document.createElement("a");
+      a.href = "myStudyPlan.json";
+      a.download = "myStudyPlan.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <main>
       <div className="header">
-        <a href="" className="btn">
+        <a href="" className="btn" onClick={(e) => downloadFile()}>
           Download your study plan 📥
         </a>
         <a href="" className="btn">
