@@ -1,8 +1,6 @@
 "use client";
-import { Download, Upload } from "lucide-react";
 
-import Image from "next/image";
-import cuid from "cuid";
+
 import CreateCourseModal from "./components/CreateCourseModal.jsx";
 
 import React, { useEffect, useState } from "react";
