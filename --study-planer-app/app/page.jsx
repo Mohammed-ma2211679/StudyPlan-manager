@@ -124,6 +124,7 @@ export default function Home() {
                 const semesterGPA = yearRepo.getSemesterGPA(year.id, sem);
 
                 return (
+                  
                   <div className={`semester ${sem}`} key={sem}>
                     <h3>{sem.charAt(0).toUpperCase() + sem.slice(1)}</h3>
                     {year.courses[sem].map((course, idx) => (
