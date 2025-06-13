@@ -183,11 +183,12 @@ export default function Home() {
         </button>
       </div>
       <div className="details">
-        Final GPA: {FinalGPA}
-        <br />
+        <span>Study Plan Summary</span><br />
+      Final Credits: {FinalCredits}
+      <br />
         Final Points: {FinalPoints}
         <br />
-        Final Credits: {FinalCredits}
+        Final GPA: {FinalGPA}
       </div>
     </main>
   );

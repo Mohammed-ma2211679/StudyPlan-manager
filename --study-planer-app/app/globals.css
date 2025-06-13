@@ -229,6 +229,10 @@ main .details {
   text-align: center;
 }
 
+main .details span{
+  color: #007bff;
+  font-weight: bold;
+}
 
 
 footer {
